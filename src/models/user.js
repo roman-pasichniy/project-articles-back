@@ -2,10 +2,12 @@ import { model, Schema } from 'mongoose';
 
 const userSchema = new Schema(
   {
-    username: {
+    name: {
       type: String,
       trim: true,
       required: true,
+      minlength: 2,
+      maxlength: 32,
     },
 
     email: {
@@ -14,23 +16,22 @@ const userSchema = new Schema(
       required: true,
       lowercase: true,
       trim: true,
+      maxlength: 64,
     },
 
     password: {
       type: String,
       required: true,
     },
+
+    avatar: {
+      type: String,
+    },
   },
   {
     timestamps: true,
-  },
-);
-
-userSchema.pre('save', async function () {
-  if (!this.username) {
-    this.username = this.email;
   }
-});
+);
 
 userSchema.methods.toJSON = function () {
   const obj = this.toObject();

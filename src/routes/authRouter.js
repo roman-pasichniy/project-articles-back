@@ -5,6 +5,10 @@ import { registerUserSchema } from '../validations/authValidation.js';
 
 const router = Router();
 
-router.post('/auth/register', celebrate(registerUserSchema), registerUser);
+router.post(
+  '/register',
+  celebrate(registerUserSchema),
+  registerUser,
+);
 
 export default router;
