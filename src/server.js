@@ -14,6 +14,7 @@ import cookieParser from "cookie-parser";
 import { authRouter } from "./routes/authRouter.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import { articlesRouter } from "./routes/articlesRouter.js";
+import { categoriesRouter } from "./routes/categoriesRouter.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -27,6 +28,8 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/articles", articlesRouter);
+app.use("/api/articles", articlesRouter);
+app.use("/api/categories", categoriesRouter);
 
 app.use(notFoundHandler);
 app.use(errors());
