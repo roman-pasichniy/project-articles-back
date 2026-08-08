@@ -32,6 +32,6 @@ app.use(notFoundHandler);
 app.use(errors());
 app.use(errorHandler);
 
-//await connectMongoDB();
+await connectToMongoDB();
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
