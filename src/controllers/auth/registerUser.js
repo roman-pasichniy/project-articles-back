@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
-import { User } from '../../models/user.js';
+import { UserModel } from '../../models/user.js';
 
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
-  const existingUser = await User.findOne({ email });
+  const existingUser = await UserModel.findOne({ email });
 
   if (existingUser) {
     throw createHttpError(409, 'Email in use');
@@ -13,7 +13,7 @@ export const registerUser = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await User.create({
+  const newUser = await UserModel.create({
     name,
     email,
     password: hashedPassword,
@@ -24,6 +24,7 @@ export const registerUser = async (req, res) => {
       id: newUser._id,
       name: newUser.name,
       email: newUser.email,
+      avatarUrl: newUser.avatarUrl,
     },
   });
 };
