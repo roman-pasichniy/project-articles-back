@@ -1,4 +1,5 @@
 import { getArticleById } from "./articles/getArticleById.js";
+import { getArticles } from "./articles/getArticles.js";
 import { registerUser } from "./auth/registerUser.js";
 
 export const auth = {
@@ -6,4 +7,5 @@ export const auth = {
 };
 export const articles = {
   getArticleById,
+  getArticles,
 };
