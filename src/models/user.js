@@ -24,7 +24,7 @@ const userSchema = new Schema(
     },
     avatarUrl: {
       type: String,
-      default: "https://ac.goit.global/fullstack/react/default-avatar.jpg",
+      default: "https://goit.global",
     },
     articlesAmount: {
       type: Number,
@@ -38,7 +38,7 @@ const userSchema = new Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 userSchema.methods.toJSON = function () {

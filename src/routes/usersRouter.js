@@ -7,5 +7,7 @@ export const usersRouter = Router();
 usersRouter.get(
   "/users/:userId",
   celebrate(userIdParamSchema),
-  ctrl.getUserById
+  ctrl.getUserById,
 );
+
+usersRouter.patch("/me", ctrl.updateCurrentUser);
