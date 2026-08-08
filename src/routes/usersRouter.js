@@ -10,4 +10,6 @@ usersRouter.get(
   ctrl.getUserById,
 );
 
+usersRouter.get("/", ctrl.getAuthors);
+
 usersRouter.patch("/me", ctrl.updateCurrentUser);
