@@ -1,5 +1,5 @@
-import {Schema, model} from 'mongoose';
+import { Schema, model } from "mongoose";
 
-comsn userSchema = new Schema({});
+const userSchema = new Schema({});
 
-export const UserModel = model ('user', userSchema);
+export const UserModel = model("user", userSchema);
