@@ -1,5 +1,45 @@
-import {Schema, model} from 'mongoose';
+import { Schema, model } from "mongoose";
 
-comsn articleSchema = new Schema({});
+const articleSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 48,
+      trim: true,
+    },
 
-export const ArticleModel = model ('article', articleSchema);
+    description: {
+      type: String,
+      required: true,
+      minlength: 100,
+      maxlength: 4000,
+      trim: true,
+    },
+
+    photo: {
+      type: String,
+      required: true,
+    },
+
+    date: {
+      type: Date,
+      required: true,
+    },
+
+    author: {
+      type: String,
+      required: true,
+      minlength: 4,
+      maxlength: 50,
+      trim: true,
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
+);
+
+export const ArticleModel = model("article", articleSchema);
