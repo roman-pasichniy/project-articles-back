@@ -1,6 +1,7 @@
 import createHttpError from "http-errors";
-import { UserModel } from "../models/user.js";
-import { ArticleModel } from "../models/article.js";
+
+import { ArticleModel } from "../../models/article.js";
+import { UserModel } from "../../models/user.js";
 
 export const getUserById = async (req, res) => {
   const { userId } = req.params;
