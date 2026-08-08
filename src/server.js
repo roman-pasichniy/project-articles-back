@@ -28,7 +28,6 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/articles", articlesRouter);
-app.use("/api/articles", articlesRouter);
 app.use("/api/categories", categoriesRouter);
 
 app.use(notFoundHandler);
