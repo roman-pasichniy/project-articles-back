@@ -9,4 +9,9 @@ export const authRouter = Router();
 router.post('/login', celebrate(loginUserSchema), loginUser);
 
 authRouter.post("/register", ctrl.registerUser);
-authRouter.get("/current", ctrl.currentUser, authMiddleware);
+authRouter.post("/logout", ctrl.logoutUser);
+authRouter.post(
+  "/refresh",
+  celebrate(refreshUserSessionSchema),
+  ctrl.refreshUserSession,
+);
