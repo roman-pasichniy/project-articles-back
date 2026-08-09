@@ -15,6 +15,7 @@ export const createArticleController = async (req, res) => {
   const article = await createArticle({
     ...req.body,
     photo: uploadResult.secure_url,
+    ownerId: req.user._id,
   });
 
   res.status(201).json({
