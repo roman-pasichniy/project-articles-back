@@ -10,9 +10,9 @@ import { articles as ctrl } from "../controllers/index.js";
 import { createArticleController } from "../controllers/articles/index.js";
 import { upload } from "../middleware/upload.js";
 import { uploadErrorHandler } from "../middleware/uploadErrorHandler.js";
-import { authMiddleware } from "../middleware/authMiddleware.js";
+import authMiddleware from "../middleware/auth.middleware.js";
 
-const articlesRouter = Router();
+export const articlesRouter = Router();
 
 articlesRouter.get("/:articleId", ctrl.getArticleById);
 articlesRouter.get("/", ctrl.getArticles);

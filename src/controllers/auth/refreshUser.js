@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import Session from "../../models/Session.js";
+import { Session } from "../../models/session.js";
 import {
   clearSessionCookies,
   createSession,
