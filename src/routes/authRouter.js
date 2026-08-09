@@ -1,7 +1,14 @@
-import { Router } from "express";
+import { Router } from 'express';
+import { celebrate } from 'celebrate';
+import { registerUser } from '../controllers/auth/registerUser.js';
+import { registerUserModel} from '../validations/authValidation.js';
 
-import { auth as ctrl } from "../controllers/index.js";
+const router = Router();
 
-export const authRouter = Router();
+router.post(
+  '/register',
+  celebrate(registerUserModel),
+  registerUser,
+);
 
-authRouter.post("/register", ctrl.registerUser);
+export const authRouter = router;
