@@ -6,6 +6,7 @@ import { createArticleController } from "../controllers/articles/index.js";
 import { createArticleSchema } from "../validations/articles.js";
 import { upload } from "../middleware/upload.js";
 import { uploadErrorHandler } from "../middleware/uploadErrorHandler.js";
+import 
 
 export const articlesRouter = Router();
 
@@ -21,3 +22,12 @@ articlesRouter.post(
   createArticleController,
   uploadErrorHandler,
 );
+=======
+articlesRouter.patch("/articles/:id", (req, res) => {
+
+});
+
+articlesRouter.delete("/articles/:id", (req, res) => { 
+
+});
+>>>>>>> Stashed changes
