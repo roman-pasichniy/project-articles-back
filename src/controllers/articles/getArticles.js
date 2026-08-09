@@ -17,6 +17,7 @@ export const getArticles = async (req, res, next) => {
     if (!Number.isInteger(page) || page < 1) {
       throw createHttpError(400, "Page must be a positive integer");
     }
+
     if (!Number.isInteger(perPage) || perPage < 1 || perPage > 100) {
       throw createHttpError(400, "Per page must be an integer from 1 to 100");
     }
@@ -47,16 +48,23 @@ export const getArticles = async (req, res, next) => {
       ArticleModel.countDocuments(filter),
     ]);
 
+    const articlesData = articles.map((article) => ({
+      _id: article._id,
+      title: article.title,
+      description: article.description,
+      photo: article.photo,
+      date: article.date,
+      author: article.author,
+    }));
+
     const totalPages = Math.ceil(totalItems / perPage);
 
     res.status(200).json({
+      data: articlesData,
       page,
       perPage,
       totalItems,
       totalPages,
-      hasPreviousPage: page > 1,
-      hasNextPage: page < totalPages,
-      articles,
     });
   } catch (error) {
     next(error);

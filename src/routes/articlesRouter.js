@@ -9,8 +9,8 @@ import { uploadErrorHandler } from "../middleware/uploadErrorHandler.js";
 
 export const articlesRouter = Router();
 
-articlesRouter.get("/", ctrl.getArticles);
 articlesRouter.get("/:articleId", ctrl.getArticleById);
+articlesRouter.get("/", ctrl.getArticles);
 
 articlesRouter.post(
   "/",
