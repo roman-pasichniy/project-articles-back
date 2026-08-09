@@ -9,9 +9,11 @@ export const authRouter = Router();
 router.post('/login', celebrate(loginUserSchema), loginUser);
 
 authRouter.post("/register", ctrl.registerUser);
-authRouter.post("/logout", ctrl.logoutUser);
+
+authRouter.post("/auth/logout", logoutUser);
+
 authRouter.post(
-  "/refresh",
+  "/auth/refresh",
   celebrate(refreshUserSessionSchema),
-  ctrl.refreshUserSession,
+  refreshUserSession,
 );
