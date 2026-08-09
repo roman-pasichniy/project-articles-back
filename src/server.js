@@ -15,6 +15,7 @@ import { authRouter } from "./routes/authRouter.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import { articlesRouter } from "./routes/articlesRouter.js";
 import { categoriesRouter } from "./routes/categoriesRouter.js";
+import  avatarRouter  from "./routes/avatarRouter.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -29,6 +30,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/articles", articlesRouter);
 app.use("/api/categories", categoriesRouter);
+app.use("/api/users", avatarRouter);
 
 app.use(notFoundHandler);
 app.use(errors());
