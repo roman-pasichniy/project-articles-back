@@ -10,7 +10,7 @@ import { articles as ctrl } from "../controllers/index.js";
 import { createArticleController } from "../controllers/articles/index.js";
 import { upload } from "../middleware/upload.js";
 import { uploadErrorHandler } from "../middleware/uploadErrorHandler.js";
-import {authMiddleware} from "../middleware/auth.middleware.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 
 export const articlesRouter = Router();
 
@@ -19,6 +19,7 @@ articlesRouter.get("/", ctrl.getArticles);
 
 articlesRouter.post(
   "/",
+  authMiddleware,
   upload.single("photo"),
   celebrate({
     [Segments.BODY]: createArticleSchema,
