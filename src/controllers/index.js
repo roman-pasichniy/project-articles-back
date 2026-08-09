@@ -2,6 +2,7 @@ import { getArticleById } from "./articles/getArticleById.js";
 import { getArticles } from "./articles/getArticles.js";
 import { getArticleCategories } from "./articles/getArticleCategories.js";
 import { updateArticle } from "./articles/updateArticle.js";
+import { deleteArticle } from "./articles/deleteArticle.js";
 import { registerUser } from "./auth/registerUser.js";
 import { logoutUser } from "./auth/logoutUser.js";
 import { refreshUserSession } from "./auth/refreshUser.js";
@@ -19,6 +20,7 @@ export const articles = {
   getArticles,
   getArticleCategories,
   updateArticle,
+  deleteArticle,
 };
 
 export const users = {

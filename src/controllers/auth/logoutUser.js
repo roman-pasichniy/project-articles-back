@@ -1,4 +1,4 @@
-import Session from "../../models/Session.js";
+import { Session } from "../../models/session.js";
 import { clearSessionCookies } from "../../services/auth.js";
 
 export const logoutUser = async (req, res, next) => {
