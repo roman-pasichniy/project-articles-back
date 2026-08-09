@@ -10,6 +10,10 @@ export const createArticleSchema = Joi.object({
     .required(),
 
   author: Joi.string().trim().min(4).max(50).required(),
+
+  category: Joi.string()
+    .valid("popular", "general")
+    .required(),
 });
 
 export const getIdSchema = {
@@ -24,7 +28,11 @@ export const updateArticleSchema = {
     description: Joi.string().trim().min(100).max(4000),
 
     date: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/),
+
     author: Joi.string().trim().min(4).max(50),
+
+    category: Joi.string().valid("popular", "general"),
   }).min(1),
+
   ...getIdSchema,
 };
