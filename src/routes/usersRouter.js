@@ -5,9 +5,15 @@ import { celebrate } from "celebrate";
 
 export const usersRouter = Router();
 usersRouter.get(
-  "/users/:userId",
+  "/:userId",
   celebrate(userIdParamSchema),
   ctrl.getUserById,
+);
+
+usersRouter.get(
+  "/:userId/articles",
+  celebrate(userIdParamSchema),
+  ctrl.getUserArticles,
 );
 
 usersRouter.get("/", ctrl.getAuthors);

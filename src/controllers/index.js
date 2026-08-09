@@ -9,6 +9,7 @@ import { refreshUserSession } from "./auth/refreshUser.js";
 import { getUserById } from "./users/getUserById.js";
 import { getAuthors } from "./users/getAuthors.js";
 import { updateCurrentUser } from "./users/updateCurrentUser.js";
+import { getUserArticles } from "./users/getUserArticles.js";
 
 export const auth = {
   registerUser,
@@ -25,6 +26,7 @@ export const articles = {
 
 export const users = {
   getUserById,
+  getUserArticles,
   updateCurrentUser,
   getAuthors,
 };
