@@ -1,20 +1,42 @@
-import jwt from "jsonwebtoken";
+import createHttpError from 'http-errors';
+import { Session } from '../models/session.js';
+import { UserModel } from '../models/user.js';
 
-const authMiddleware = (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer "))
-      return res.status(401).json({ message: "No token or not wright format" });
+export const authMiddleware = async (req, res, next) => {
+  const { sessionId, accessToken } = req.cookies;
 
-    const token = authHeader.split(" ")[1];
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-
-    next();
-  } catch (error) {
-    return res.status(401).json({ message: "Wrong token" });
+  if (!sessionId || !accessToken) {
+    throw createHttpError(401, 'Missing session credentials');
   }
+
+  
+  const session = await Session.findOne({
+    _id: sessionId,
+    accessToken,
+  });
+
+  
+  if (!session) {
+    throw createHttpError(401, 'Session not found');
+  }
+
+  const isAccessTokenExpired = session.accessTokenValidUntil < new Date();
+
+  if (isAccessTokenExpired) {
+    throw createHttpError(401, 'Access token expired');
+  }
+
+  
+  const user = await UserModel.findById(session.userId);
+
+  
+  if (!user) {
+    throw createHttpError(401, 'User not found');
+  }
+
+
+  req.user = user;
+  next();
 };
 
-export default authMiddleware;
