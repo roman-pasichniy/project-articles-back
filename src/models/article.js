@@ -34,7 +34,12 @@ const articleSchema = new Schema(
       minlength: 4,
       maxlength: 50,
       trim: true,
-    },
+        },
+    ownerId: {
+  type: Schema.Types.ObjectId,
+  ref: "user",
+  required: true,
+},
   },
   {
     timestamps: true,
