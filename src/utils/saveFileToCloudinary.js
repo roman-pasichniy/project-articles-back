@@ -7,25 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const getMissingCloudinaryVars = () => {
-  const requiredVars = [
-    "CLOUDINARY_CLOUD_NAME",
-    "CLOUDINARY_API_KEY",
-    "CLOUDINARY_API_SECRET",
-  ];
-
-  return requiredVars.filter((envVar) => !process.env[envVar]);
-};
-
 export async function saveFileToCloudinary(buffer, options = {}) {
-  const missingVars = getMissingCloudinaryVars();
-
-  if (missingVars.length > 0) {
-    throw new Error(
-      `Cloudinary env is not configured. Missing: ${missingVars.join(", ")}`
-    );
-  }
-
   const uploadOptions = {
     resource_type: "image",
     folder: options.folder,
