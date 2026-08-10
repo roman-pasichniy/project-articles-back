@@ -8,7 +8,7 @@ export const updateUserAvatar = async (req, res) => {
     throw createHttpError(400, 'No file');
   }
 
-  const user = await UserModel.findById(req.user.id);
+  const user = await UserModel.findById(req.user._id);
 
   if (!user) {
     throw createHttpError(404, 'User not found');
