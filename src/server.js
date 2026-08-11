@@ -19,10 +19,28 @@ import  avatarRouter  from "./routes/avatarRouter.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
+const allowedOrigins = [
+  process.env.FRONTEND_ORIGIN,
+  process.env.CLIENT_URL,
+  "http://localhost:3000",
+  "http://localhost:5173",
+].filter(Boolean);
 
 app.use(logger);
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(null, false);
+    },
+    credentials: true,
+  }),
+);
 app.use(helmet());
 app.use(cookieParser());
 
