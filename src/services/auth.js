@@ -2,24 +2,26 @@ import { Session } from "../models/session.js";
 import crypto from "crypto";
 import { FIFTEEN_MINUTES, ONE_DAY } from "../constants/time.js";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const cookieOptions = {
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
+};
+
 const setSessionCookies = (res, session) => {
   res.cookie("sessionId", session._id.toString(), {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
+    ...cookieOptions,
     maxAge: ONE_DAY,
   });
   res.cookie("accessToken", session.accessToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
+    ...cookieOptions,
     maxAge: FIFTEEN_MINUTES,
   });
 
   res.cookie("refreshToken", session.refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
+    ...cookieOptions,
     maxAge: ONE_DAY,
   });
 };
@@ -34,8 +36,9 @@ async function createSession(userId) {
 }
 
 const clearSessionCookies = (res) => {
-  res.clearCookie("sessionId", { httpOnly: true, sameSite: "strict" });
-  res.clearCookie("refreshToken", { httpOnly: true, sameSite: "strict" });
+  res.clearCookie("sessionId", { ...cookieOptions });
+  res.clearCookie("refreshToken", { ...cookieOptions });
+  res.clearCookie("accessToken", { ...cookieOptions });
 };
 
 export { setSessionCookies, createSession, clearSessionCookies };

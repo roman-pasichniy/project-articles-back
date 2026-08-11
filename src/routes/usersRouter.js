@@ -1,15 +1,17 @@
 import { Router } from "express";
+import { celebrate } from "celebrate";
 import { users as ctrl } from "../controllers/index.js";
 import { userIdParamSchema } from "../validations/userValidation.js";
-import { celebrate } from "celebrate";
 import authMiddleware from "../middleware/authMiddleware.js";
 
 export const usersRouter = Router();
 
-usersRouter.get(
-  "/me/saved-articles",
+usersRouter.get("/me/saved-articles", authMiddleware, ctrl.getSavedArticles);
+
+usersRouter.post(
+  "/me/saved-articles/:articleId",
   authMiddleware,
-  ctrl.getSavedArticles,
+  ctrl.addSavedArticle,
 );
 
 usersRouter.get(
@@ -26,4 +28,4 @@ usersRouter.get(
 
 usersRouter.get("/", ctrl.getAuthors);
 
-usersRouter.patch("/me", ctrl.updateCurrentUser);
+usersRouter.patch("/me", authMiddleware, ctrl.updateCurrentUser);
