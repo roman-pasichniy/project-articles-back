@@ -1,17 +1,3 @@
-import { Router } from "express";
-import { celebrate, Segments } from "celebrate";
-import {
-  updateArticleSchema,
-  getIdSchema,
-  createArticleSchema,
-} from "../validations/articles.js";
-
-import { articles as ctrl } from "../controllers/index.js";
-import { createArticleController } from "../controllers/articles/index.js";
-import { upload } from "../middleware/upload.js";
-import { uploadErrorHandler } from "../middleware/uploadErrorHandler.js";
-import { authMiddleware } from "../middleware/auth.middleware.js";
-
 export const articlesRouter = Router();
 
 /**
@@ -42,7 +28,6 @@ export const articlesRouter = Router();
  *       404:
  *         description: Article not found
  */
-articlesRouter.get("/:articleId", ctrl.getArticleById);
 
 /**
  * @swagger
@@ -115,7 +100,17 @@ articlesRouter.get("/:articleId", ctrl.getArticleById);
  *       400:
  *         description: Invalid query parameters
  */
-articlesRouter.get("/", ctrl.getArticles);
+articlesRouter.get(
+  "/:id",
+  celebrate(getIdSchema),
+  ctrl.getArticleById,
+);
+
+articlesRouter.get(
+  "/",
+  celebrate(getArticlesSchema),
+  ctrl.getArticles,
+);
 
 /**
  * @swagger
@@ -182,9 +177,7 @@ articlesRouter.post(
   "/",
   authMiddleware,
   upload.single("photo"),
-  celebrate({
-    [Segments.BODY]: createArticleSchema,
-  }),
+  celebrate(createArticleSchema),
   createArticleController,
   uploadErrorHandler,
 );

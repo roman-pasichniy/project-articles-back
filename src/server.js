@@ -20,6 +20,9 @@ import avatarRouter from "./routes/avatarRouter.js";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./swagger.js";
 
+import dns from "node:dns";
+dns.setServers(["8.8.8.8"]);
+
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 const allowedOrigins = [
