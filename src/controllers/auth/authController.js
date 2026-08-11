@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
-import { UserModel } from "../../models/user.js";
 import createHttpError from "http-errors";
+import { Session } from "../../models/session.js";
+import { UserModel } from "../../models/user.js";
+import { createSession, setSessionCookies } from "../../services/auth.js";
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;

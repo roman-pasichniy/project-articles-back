@@ -15,20 +15,48 @@ import { authRouter } from "./routes/authRouter.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import { articlesRouter } from "./routes/articlesRouter.js";
 import { categoriesRouter } from "./routes/categoriesRouter.js";
+import avatarRouter from "./routes/avatarRouter.js";
+
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./swagger.js";
+
+import dns from "node:dns";
+dns.setServers(["8.8.8.8"]);
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
+const allowedOrigins = [
+  process.env.FRONTEND_ORIGIN,
+  process.env.CLIENT_URL,
+  "http://localhost:3000",
+  "http://localhost:5173",
+].filter(Boolean);
 
 app.use(logger);
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(null, false);
+    },
+    credentials: true,
+  }),
+);
 app.use(helmet());
 app.use(cookieParser());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/articles", articlesRouter);
 app.use("/api/categories", categoriesRouter);
+app.use("/api/users", avatarRouter);
 
 app.use(notFoundHandler);
 app.use(errors());
