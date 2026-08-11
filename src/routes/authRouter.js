@@ -101,3 +101,4 @@ authRouter.post("/logout", authMiddleware, ctrl.logoutUser);
  *         description: Session not found or refresh token expired
  */
 authRouter.post("/refresh", ctrl.refreshUserSession);
+authRouter.get("/current", authMiddleware, ctrl.currentUser);
