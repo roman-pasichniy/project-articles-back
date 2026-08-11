@@ -25,16 +25,18 @@ export const getArticles = async (req, res, next) => {
       ArticleModel.countDocuments(filter),
     ]);
 
-       const articlesData = articles.map((article) => ({
-      _id: article._id,
-      photo: article.img,
+    const articlesData = articles.map((article) => ({
+      _id: article._id.toString(),
+      photo: article.photo ?? article.img,
       title: article.title,
-      description: article.desc,
+      description: article.description ?? article.desc,
+      content: article.content ?? article.article,
+      rate: article.rate,
+      ownerId: article.ownerId,
       date: article.date,
-      author: article.name,
+      author: article.author,
       category: article.category,
-      }));
-
+    }));
     const totalPages = Math.ceil(totalItems / perPage);
 
     res.status(200).json({
