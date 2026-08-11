@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {authMiddleware} from "../middleware/auth.middleware.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 import { celebrate } from "celebrate";
 import { auth as ctrl } from "../controllers/index.js";
 import { loginUser } from "../controllers/auth/authController.js";
