@@ -25,15 +25,15 @@ export const getArticles = async (req, res, next) => {
       ArticleModel.countDocuments(filter),
     ]);
 
-    const articlesData = articles.map((article) => ({
+       const articlesData = articles.map((article) => ({
       _id: article._id,
-      photo: article.photo,
+      photo: article.img,
       title: article.title,
-      description: article.description,
+      description: article.desc,
       date: article.date,
-      author: article.author,
+      author: article.name,
       category: article.category,
-    }));
+      }));
 
     const totalPages = Math.ceil(totalItems / perPage);
 
