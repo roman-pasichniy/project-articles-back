@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { CATEGORIES } from "../constants/index.js";
 
 const articleSchema = new Schema(
   {
@@ -34,18 +35,18 @@ const articleSchema = new Schema(
       minlength: 4,
       maxlength: 50,
       trim: true,
-        },
-    category: {
-  type: String,
-  enum: ["popular", "general"],
-  required: true,
-},
+    },
+
+      category: {
+    type: String,
+    enum: CATEGORIES,
+  },
 
     ownerId: {
-  type: Schema.Types.ObjectId,
-  ref: "user",
-  required: true,
-},
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   {
     timestamps: true,
