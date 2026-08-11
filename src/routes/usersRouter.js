@@ -12,6 +12,12 @@ usersRouter.get(
   ctrl.getSavedArticles,
 );
 
+usersRouter.post(
+  "/me/saved-articles/:articleId",
+  authMiddleware,
+  ctrl.addSavedArticle,
+);
+
 usersRouter.get(
   "/:userId",
   celebrate(userIdParamSchema),
