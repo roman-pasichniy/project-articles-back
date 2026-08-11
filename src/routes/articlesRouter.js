@@ -1,3 +1,20 @@
+
+import { Router } from "express";
+import { celebrate, Segments } from "celebrate";
+import {
+  updateArticleSchema,
+  getIdSchema,
+  createArticleSchema,
+  getArticlesSchema,
+} from "../validations/articles.js";
+
+import { articles as ctrl } from "../controllers/index.js";
+import { createArticleController } from "../controllers/articles/index.js";
+import { upload } from "../middleware/upload.js";
+import { uploadErrorHandler } from "../middleware/uploadErrorHandler.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+
+
 export const articlesRouter = Router();
 
 /**
