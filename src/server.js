@@ -15,7 +15,10 @@ import { authRouter } from "./routes/authRouter.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import { articlesRouter } from "./routes/articlesRouter.js";
 import { categoriesRouter } from "./routes/categoriesRouter.js";
-import  avatarRouter  from "./routes/avatarRouter.js";
+import avatarRouter from "./routes/avatarRouter.js";
+
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./swagger.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -43,6 +46,8 @@ app.use(
 );
 app.use(helmet());
 app.use(cookieParser());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
