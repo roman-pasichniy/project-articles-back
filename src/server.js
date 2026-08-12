@@ -42,6 +42,7 @@ app.use(
       callback(null, false);
     },
     credentials: true,
+    methods: ["GET", "POST", "PATCH", "DELETE"],
   }),
 );
 app.use(helmet());
