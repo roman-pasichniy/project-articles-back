@@ -5,9 +5,10 @@ export const updateArticle = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updateData = req.body;
+    const ownerId = req.user._id; // Assuming you have user authentication and the user ID is available in req.user
 
     const updatedArticle = await ArticleModel.findOneAndUpdate(
-      { _id: id },
+      { _id: id, ownerId: ownerId }, // Ensure the article belongs to the authenticated user
       updateData,
       {
         new: true,

@@ -1,53 +1,49 @@
 import { Router } from "express";
+import { celebrate } from "celebrate";
 import { users as ctrl } from "../controllers/index.js";
 import { userIdParamSchema } from "../validations/userValidation.js";
-import { celebrate } from "celebrate";
-import { authMiddleware } from "../middleware/auth.middleware.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 export const usersRouter = Router();
 
 /**
-  * @swagger
-  * /api/users/me/saved-articles:
-  *   get:
-  *     tags:
-  *       - Users
-  *     summary: Get saved articles
-  *     description: Returns the authenticated user's saved articles with pagination.
-  *     security:
-  *       - cookieAuth: []
-  *     parameters:
-  *       - in: query
-  *         name: page
-  *         required: false
-  *         schema:
-  *           type: integer
-  *           minimum: 1
-  *           default: 1
-  *         example: 1
-  *       - in: query
-  *         name: perPage
-  *         required: false
-  *         schema:
-  *           type: integer
-  *           minimum: 1
-  *           default: 10
-  *         example: 10
-  *     responses:
-  *       200:
-  *         description: Saved articles successfully retrieved
-  *         content:
-  *           application/json:
-  *             schema:
-  *               $ref: '#/components/schemas/SavedArticlesResponse'
-  *       401:
-  *         description: Unauthorized
-  */
-usersRouter.get(
-  "/me/saved-articles",
-  authMiddleware,
-  ctrl.getSavedArticles,
-);
+ * @swagger
+ * /api/users/me/saved-articles:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get saved articles
+ *     description: Returns the authenticated user's saved articles with pagination.
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         example: 1
+ *       - in: query
+ *         name: perPage
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 10
+ *         example: 10
+ *     responses:
+ *       200:
+ *         description: Saved articles successfully retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SavedArticlesResponse'
+ *       401:
+ *         description: Unauthorized
+ */
+usersRouter.get("/me/saved-articles", authMiddleware, ctrl.getSavedArticles);
 
 /**
  * @swagger
@@ -260,11 +256,4 @@ usersRouter.get("/", ctrl.getAuthors);
  *       404:
  *         description: User not found
  */
-
-
-usersRouter.patch(
-  "/me",
-  authMiddleware,
-  ctrl.updateCurrentUser,
-);
-// usersRouter.patch("/me", ctrl.updateCurrentUser);
+usersRouter.patch("/me", authMiddleware, ctrl.updateCurrentUser);
