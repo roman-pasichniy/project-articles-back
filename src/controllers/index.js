@@ -9,7 +9,6 @@ import { refreshUserSession } from "./auth/refreshUser.js";
 import { getUserById } from "./users/getUserById.js";
 import { getAuthors } from "./users/getAuthors.js";
 import { updateCurrentUser } from "./users/updateCurrentUser.js";
-import { getArticleCategories } from "./articles/getArticleCategories.js";
 import { getUserArticles } from "./users/getUserArticles.js";
 import { getSavedArticles } from "./users/getSavedArticles.js";
 import { addSavedArticle } from "./users/addSavedArticle.js";
