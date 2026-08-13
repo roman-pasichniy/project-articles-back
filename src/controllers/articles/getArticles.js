@@ -17,7 +17,7 @@ export const getArticles = async (req, res, next) => {
 
     const [articles, totalItems] = await Promise.all([
       ArticleModel.find(filter)
-        .sort({ [sortBy]: sortDirection })
+        .sort({ [sortBy]: sortDirection, _id: sortDirection })
         .skip(skip)
         .limit(perPage)
         .lean(),
@@ -25,7 +25,7 @@ export const getArticles = async (req, res, next) => {
       ArticleModel.countDocuments(filter),
     ]);
 
-       const articlesData = articles.map((article) => ({
+    const articlesData = articles.map((article) => ({
       _id: article._id,
       photo: article.img,
       title: article.title,
@@ -33,7 +33,7 @@ export const getArticles = async (req, res, next) => {
       date: article.date,
       author: article.name,
       category: article.category,
-      }));
+    }));
 
     const totalPages = Math.ceil(totalItems / perPage);
 
