@@ -80,11 +80,47 @@ usersRouter.get("/me/saved-articles", authMiddleware, ctrl.getSavedArticles);
  *         description: Article not found
  *       409:
  *         description: Article already saved
+ *   delete:
+ *     tags:
+ *       - Users
+ *     summary: Remove an article from saved articles
+ *     description: Removes an article from the authenticated user's saved articles.
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: articleId
+ *         required: true
+ *         schema:
+ *           type: string
+ *           pattern: '^[a-fA-F0-9]{24}$'
+ *         example: 64f1a2b3c4d5e6f789012345
+ *     responses:
+ *       200:
+ *         description: Article successfully removed from saved articles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Article removed from saved articles
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Article is not saved
  */
 usersRouter.post(
   "/me/saved-articles/:articleId",
   authMiddleware,
   ctrl.addSavedArticle,
+);
+
+usersRouter.delete(
+  "/me/saved-articles/:articleId",
+  authMiddleware,
+  ctrl.removeSavedArticle,
 );
 
 /**
@@ -127,11 +163,7 @@ usersRouter.post(
  *       404:
  *         description: User not found
  */
-usersRouter.get(
-  "/:userId",
-  celebrate(userIdParamSchema),
-  ctrl.getUserById,
-);
+usersRouter.get("/:userId", celebrate(userIdParamSchema), ctrl.getUserById);
 
 /**
  * @swagger
