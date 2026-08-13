@@ -17,7 +17,7 @@ export const getArticles = async (req, res, next) => {
 
     const [articles, totalItems] = await Promise.all([
       ArticleModel.find(filter)
-        .sort({ [sortBy]: sortDirection })
+        .sort({ [sortBy]: sortDirection, _id: sortDirection })
         .skip(skip)
         .limit(perPage)
         .lean(),
@@ -27,7 +27,7 @@ export const getArticles = async (req, res, next) => {
 
     const articlesData = articles.map((article) => ({
       _id: article._id.toString(),
-      photo: article.photo ?? article.img,
+      photo: article.photo ?? article.img,      
       title: article.title,
       description: article.description ?? article.desc,
       content: article.content ?? article.article,
