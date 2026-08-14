@@ -127,11 +127,7 @@ usersRouter.post(
  *       404:
  *         description: User not found
  */
-usersRouter.get(
-  "/:userId",
-  celebrate(userIdParamSchema),
-  ctrl.getUserById,
-);
+usersRouter.get("/:userId", celebrate(userIdParamSchema), ctrl.getUserById);
 
 /**
  * @swagger
