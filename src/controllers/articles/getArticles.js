@@ -10,16 +10,23 @@ export const getArticles = async (req, res, next) => {
       sortOrder = "desc",
     } = req.query;
 
-    const filter = category ? { category } : {};
+    const filter =
+  category === "popular"
+    ? { rate: { $gte: 43 } }
+    : {};
 
-    const skip = (page - 1) * perPage;
+    const currentPage = Number(page);
+    const itemsPerPage = Number(perPage);
+
+    const skip = (currentPage - 1) * itemsPerPage;
+
     const sortDirection = sortOrder === "asc" ? 1 : -1;
 
     const [articles, totalItems] = await Promise.all([
       ArticleModel.find(filter)
         .sort({ [sortBy]: sortDirection, _id: sortDirection })
         .skip(skip)
-        .limit(perPage)
+        .limit(itemsPerPage)
         .lean(),
 
       ArticleModel.countDocuments(filter),
@@ -37,12 +44,12 @@ export const getArticles = async (req, res, next) => {
       author: article.author,
       category: article.category,
     }));
-    const totalPages = Math.ceil(totalItems / perPage);
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     res.status(200).json({
       data: articlesData,
-      page,
-      perPage,
+      page: currentPage,
+      perPage: itemsPerPage,
       totalItems,
       totalPages,
     });
