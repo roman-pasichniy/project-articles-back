@@ -10,7 +10,6 @@ export const getArticles = async (req, res, next) => {
       sortOrder = "desc",
     } = req.query;
 
-    // const filter = category ? { category } : {};
     const isPopular = category === "popular";
 
 const filter = isPopular ? {} : category ? { category } : {};
