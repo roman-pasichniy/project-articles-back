@@ -13,8 +13,12 @@ export const createArticleController = async (req, res) => {
   });
 
   const article = await createArticle({
-    ...req.body,
-    photo: uploadResult.secure_url,
+    title: req.body.title,
+    desc: req.body.article,
+    article: req.body.article,
+    date: req.body.date,
+    img: uploadResult.secure_url,
+    rate: 0,
     ownerId: req.user._id,
   });
 
