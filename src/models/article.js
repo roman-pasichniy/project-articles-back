@@ -36,6 +36,12 @@ const articleSchema = new Schema(
       min: 0,
     },
 
+    category: {
+      type: String,
+      enum: ["popular", "general"],
+      default: "general",
+    },
+
     ownerId: {
       type: Schema.Types.ObjectId,
       ref: "user",
