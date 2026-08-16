@@ -20,20 +20,16 @@ import avatarRouter from "./routes/avatarRouter.js";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./swagger.js";
 
-import dns from "node:dns";
-dns.setServers(["8.8.8.8"]);
-
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 const allowedOrigins = [
   process.env.FRONTEND_ORIGIN,
-  process.env.CLIENT_URL,
   "http://localhost:3000",
-  "http://localhost:5173",
 ].filter(Boolean);
 
 app.use(logger);
 app.use(express.json());
+
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -45,8 +41,13 @@ app.use(
       callback(null, false);
     },
     credentials: true,
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
+
+app.options(/.*/, cors());
+
 app.use(helmet());
 app.use(cookieParser());
 

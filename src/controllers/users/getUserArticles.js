@@ -16,18 +16,34 @@ export const getUserArticles = async (req, res) => {
     throw createHttpError(404, "Такий користувач відсутній");
   }
 
-  const [totalItems, articles] = await Promise.all([
-    ArticleModel.countDocuments({ ownerId: userId }),
-    ArticleModel.find({ ownerId: userId })
-      .select("photo title description date author ownerId")
-      .skip(skip)
-      .limit(perPage),
-  ]);
+  const totalItems = await ArticleModel.countDocuments({
+    ownerId: userId,
+  });
+
+  const articles = await ArticleModel.find({
+    ownerId: userId,
+  })
+    .select("img photo title desc description author ownerId date")
+    .skip(skip)
+    .limit(perPage)
+    .lean();
+
+  const formattedArticles = articles.map((article) => ({
+    _id: article._id,
+    title: article.title,
+    description: article.description ?? article.desc ?? "",
+    photo: article.photo ?? article.img ?? "",
+    author: article.author ?? user.name,
+    ownerId: article.ownerId,
+    date: article.date,
+  }));
+
+  console.log("ARTICLES:", formattedArticles);
 
   const totalPages = Math.ceil(totalItems / perPage);
 
   res.status(200).json({
-    articles,
+    articles: formattedArticles,
     pagination: {
       page,
       perPage,

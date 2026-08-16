@@ -3,6 +3,12 @@ import { HttpError } from "http-errors";
 export const errorHandler = (err, req, res, next) => {
   console.error("Error Middleware:", err);
 
+  if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+    return res.status(400).json({
+      message: "Bad Request. Invalid JSON payload.",
+    });
+  }
+
   if (err instanceof HttpError) {
     return res.status(err.status).json({
       message: err.message || err.name,
