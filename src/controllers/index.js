@@ -12,14 +12,13 @@ import { updateCurrentUser } from "./users/updateCurrentUser.js";
 import { getUserArticles } from "./users/getUserArticles.js";
 import { getSavedArticles } from "./users/getSavedArticles.js";
 import { addSavedArticle } from "./users/addSavedArticle.js";
-import { currentUser } from "./auth/currentUser.js";
+import { currentUser } from "./users/currentUser.js";
 import { removeSavedArticle } from "./users/removeSavedArticle.js";
 
 export const auth = {
   registerUser,
   logoutUser,
   refreshUserSession,
-  currentUser,
 };
 export const articles = {
   getArticleById,
@@ -35,6 +34,7 @@ export const users = {
   getSavedArticles,
   addSavedArticle,
   removeSavedArticle,
+  currentUser,
   updateCurrentUser,
   getAuthors,
 };
