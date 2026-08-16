@@ -4,6 +4,7 @@ import { auth as ctrl } from "../controllers/index.js";
 import { loginUser } from "../controllers/auth/authController.js";
 import { loginUserSchema } from "../validations/userValidation.js";
 import { registerUserModel } from "../validations/authValidation.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 export const authRouter = Router();
 
