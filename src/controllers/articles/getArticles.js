@@ -14,52 +14,40 @@ export const getArticles = async (req, res, next) => {
 
     const currentPage = Number(page);
     const itemsPerPage = Number(perPage);
-    const isPopular = category === "popular";
 
-    const filter = isPopular ? {} : category ? { category } : {};
+    const skip = (currentPage - 1) * itemsPerPage;
+
+    const filter = {};
 
     const sortDirection = sortOrder === "asc" ? 1 : -1;
 
-    const sort = isPopular
-      ? { rate: -1, _id: -1 }
-      : { [sortBy]: sortDirection, _id: sortDirection };
-        
-    const skip = (currentPage - 1) * itemsPerPage;
-
-    const availableItems = isPopular
-      ? Math.max(POPULAR_LIMIT - skip, 0)
-      : itemsPerPage;
-
-    const limit = isPopular
-      ? Math.min(itemsPerPage, availableItems)
-      : itemsPerPage;
+    const sort =
+      category === "popular"
+        ? { rate: -1, _id: -1 }
+        : { [sortBy]: sortDirection, _id: sortDirection };
 
     const [articles, totalItems] = await Promise.all([
       ArticleModel.find(filter)
         .sort(sort)
         .skip(skip)
-        .limit(limit)
+        .limit(itemsPerPage)
         .lean(),
 
-      ArticleModel.countDocuments(filter).then((count) =>
-        isPopular ? Math.min(count, POPULAR_LIMIT) : count
-      ),
+      ArticleModel.countDocuments(filter),
     ]);
+
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const articlesData = articles.map((article) => ({
       _id: article._id.toString(),
-      photo: article.photo ?? article.img,      
+      img: article.img,
       title: article.title,
-      description: article.description ?? article.desc,
-      content: article.content ?? article.article,
+      desc: article.desc,
+      article: article.article,
       rate: article.rate,
       ownerId: article.ownerId,
       date: article.date,
-      author: article.author,
-      category: article.category,
     }));
-    
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     res.status(200).json({
       data: articlesData,
@@ -71,4 +59,4 @@ export const getArticles = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}
+};

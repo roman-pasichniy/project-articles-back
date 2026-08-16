@@ -1,8 +1,12 @@
 import { Schema, model } from "mongoose";
-import { CATEGORIES } from "../constants/index.js";
 
 const articleSchema = new Schema(
   {
+    img: {
+      type: String,
+      required: true,
+    },
+
     title: {
       type: String,
       required: true,
@@ -11,7 +15,7 @@ const articleSchema = new Schema(
       trim: true,
     },
 
-    description: {
+    desc: {
       type: String,
       required: true,
       minlength: 100,
@@ -19,32 +23,27 @@ const articleSchema = new Schema(
       trim: true,
     },
 
-    photo: {
+    article: {
       type: String,
+      required: true,
+      minlength: 1,
+      trim: true,
+    },
+
+    rate: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    ownerId: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
       required: true,
     },
 
     date: {
       type: Date,
-      required: true,
-    },
-
-    author: {
-      type: String,
-      required: true,
-      minlength: 4,
-      maxlength: 50,
-      trim: true,
-    },
-
-      category: {
-    type: String,
-    enum: CATEGORIES,
-  },
-
-    ownerId: {
-      type: Schema.Types.ObjectId,
-      ref: "user",
       required: true,
     },
   },
