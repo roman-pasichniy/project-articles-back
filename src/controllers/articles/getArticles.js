@@ -1,5 +1,7 @@
 import { ArticleModel } from "../../models/article.js";
 
+const POPULAR_LIMIT = 12; 
+
 export const getArticles = async (req, res, next) => {
   try {
     const {
@@ -10,14 +12,13 @@ export const getArticles = async (req, res, next) => {
       sortOrder = "desc",
     } = req.query;
 
-    // const filter = category ? { category } : {};
+    const currentPage = Number(page);
+    const itemsPerPage = Number(perPage);
     const isPopular = category === "popular";
 
-const filter = isPopular ? {} : category ? { category } : {};
+    const filter = isPopular ? {} : category ? { category } : {};
 
     const sortDirection = sortOrder === "asc" ? 1 : -1;
-
-    const filter = {};
 
     const sort = isPopular
       ? { rate: -1, _id: -1 }
@@ -35,11 +36,7 @@ const filter = isPopular ? {} : category ? { category } : {};
 
     const [articles, totalItems] = await Promise.all([
       ArticleModel.find(filter)
-        .sort(
-  isPopular
-    ? { rate: -1, _id: -1 }
-    : { [sortBy]: sortDirection, _id: sortDirection }
-)
+        .sort(sort)
         .skip(skip)
         .limit(limit)
         .lean(),
@@ -74,4 +71,4 @@ const filter = isPopular ? {} : category ? { category } : {};
   } catch (error) {
     next(error);
   }
-};
+}
