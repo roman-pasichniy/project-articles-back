@@ -1,10 +1,10 @@
 import { Router } from "express";
-import authMiddleware from "../middleware/authMiddleware.js";
 import { celebrate } from "celebrate";
 import { auth as ctrl } from "../controllers/index.js";
 import { loginUser } from "../controllers/auth/authController.js";
 import { loginUserSchema } from "../validations/userValidation.js";
 import { registerUserModel } from "../validations/authValidation.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 export const authRouter = Router();
 
@@ -101,4 +101,3 @@ authRouter.post("/logout", authMiddleware, ctrl.logoutUser);
  *         description: Session not found or refresh token expired
  */
 authRouter.post("/refresh", ctrl.refreshUserSession);
-authRouter.get("/current", authMiddleware, ctrl.currentUser);
