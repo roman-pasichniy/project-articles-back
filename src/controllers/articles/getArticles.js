@@ -12,18 +12,19 @@ export const getArticles = async (req, res, next) => {
 
     const isPopular = category === "popular";
 
-const filter = isPopular ? {} : category ? { category } : {};
+    const filter = isPopular ? {} : category ? { category } : {};
 
     const skip = (page - 1) * perPage;
+
     const sortDirection = sortOrder === "asc" ? 1 : -1;
 
     const [articles, totalItems] = await Promise.all([
       ArticleModel.find(filter)
         .sort(
-  isPopular
-    ? { rate: -1, _id: -1 }
-    : { [sortBy]: sortDirection, _id: sortDirection }
-)
+          isPopular
+            ? { rate: -1, _id: -1 }
+            : { [sortBy]: sortDirection, _id: sortDirection }
+    )
         .skip(skip)
         .limit(perPage)
         .lean(),
@@ -40,8 +41,6 @@ const filter = isPopular ? {} : category ? { category } : {};
       rate: article.rate,
       ownerId: article.ownerId,
       date: article.date,
-      author: article.author,
-      category: article.category,
     }));
     const totalPages = Math.ceil(totalItems / perPage);
 
