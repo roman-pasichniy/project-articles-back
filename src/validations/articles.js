@@ -5,11 +5,13 @@ export const createArticleSchema = {
   [Segments.BODY]: Joi.object({
     title: Joi.string().trim().min(3).max(48).required(),
 
+    desc: Joi.string().trim().allow("").optional(),
+
     article: Joi.string().trim().min(100).max(4000).required(),
 
-    date: Joi.string()
-      .pattern(/^\d{4}-\d{2}-\d{2}$/)
-      .required(),
+    category: Joi.string()
+      .valid("popular", "general")
+      .optional(),
   }),
 };
 

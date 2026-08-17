@@ -12,16 +12,16 @@ export const getAuthors = async (req, res, next) => {
       throw createHttpError(400, "Invalid page or limit parameters");
     }
 
-    // 2. ЗАПИТИ ДО БД: пошук авторів та рахунок їх загальної кількісті
+    // 2. ЗАПИТИ ДО БД: пошук авторів та рахунок їх загальної кількості
     const [authors, totalAuthors] = await Promise.all([
       UserModel.find()
         .select("_id name avatarUrl articlesAmount email")
-        .sort({ name: 1 }) // сортування авторів за алфавітом
+        .sort({ name: 1 })
         .skip(skip)
         .limit(limit)
-        .lean(), // Оптимізація для миттєвої відповіді
+        .lean(),
 
-      UserModel.countDocuments(), // підрахунок загальної кількісті користувачів у базі
+      UserModel.countDocuments(),
     ]);
 
     const totalPages = Math.ceil(totalAuthors / limit);
@@ -29,8 +29,8 @@ export const getAuthors = async (req, res, next) => {
     // 3. ВІДПОВІДЬ: повернення даних для майбутнього фронтенду
     res.status(200).json({
       success: true,
-      page,                        // ДОДАНО: для вашого фронтенду (allAuthors = data?.pages.flatMap...)
-      hasNextPage: page < totalPages, // ДОДАНО: для вашого фронтенду (hasNextPage && !isLoading)
+      page,
+      hasNextPage: page < totalPages,
       authors,
       pagination: {
         totalAuthors,
@@ -40,7 +40,7 @@ export const getAuthors = async (req, res, next) => {
         hasNextPage: page < totalPages,
       },
     });
- } catch (error) {
+  } catch (error) {
     next(error);
   }
 };

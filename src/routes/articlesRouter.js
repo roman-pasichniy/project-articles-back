@@ -193,10 +193,9 @@ articlesRouter.get(
 articlesRouter.post(
   "/",
   authMiddleware,
-  upload.single("photo"),
+  upload.single("img"),
   celebrate(createArticleSchema),
   createArticleController,
-  uploadErrorHandler,
 );
 
 /**
