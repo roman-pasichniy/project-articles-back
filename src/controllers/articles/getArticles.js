@@ -22,13 +22,12 @@ export const getArticles = async (req, res, next) => {
 
     const [articles, totalItems] = await Promise.all([
       ArticleModel.find(filter)
-
+        .populate("ownerId", "name")
         .sort(
           isPopular
             ? { rate: -1, _id: -1 }
-            : { [sortBy]: sortDirection, _id: sortDirection }
-    )
-
+            : { [sortBy]: sortDirection, _id: sortDirection },
+        )
         .skip(skip)
         .limit(itemsPerPage)
         .lean(),
@@ -40,12 +39,18 @@ export const getArticles = async (req, res, next) => {
 
     const articlesData = articles.map((article) => ({
       _id: article._id.toString(),
-      photo: article.photo ?? article.img,      
+      photo: article.photo ?? article.img,
       title: article.title,
       description: article.description ?? article.desc,
       content: article.content ?? article.article,
       rate: article.rate,
       date: article.date,
+      ownerId:
+        article.ownerId?._id?.toString() ??
+        article.ownerId?.toString() ??
+        null,
+      author: article.ownerId?.name ?? null,
+      category: article.category
     }));
 
     res.status(200).json({
