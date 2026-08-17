@@ -29,6 +29,8 @@ export const getAuthors = async (req, res, next) => {
     // 3. ВІДПОВІДЬ: повернення даних для майбутнього фронтенду
     res.status(200).json({
       success: true,
+      page,                        // ДОДАНО: для вашого фронтенду (allAuthors = data?.pages.flatMap...)
+      hasNextPage: page < totalPages, // ДОДАНО: для вашого фронтенду (hasNextPage && !isLoading)
       authors,
       pagination: {
         totalAuthors,
@@ -38,7 +40,7 @@ export const getAuthors = async (req, res, next) => {
         hasNextPage: page < totalPages,
       },
     });
-  } catch (error) {
-    next(error); // Помилка летить у глобальний errorHandler.js
+ } catch (error) {
+    next(error);
   }
 };

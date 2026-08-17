@@ -10,27 +10,33 @@ export const getArticles = async (req, res, next) => {
       sortOrder = "desc",
     } = req.query;
 
+    const currentPage = Number(page);
+    const itemsPerPage = Number(perPage);
+
     const isPopular = category === "popular";
 
     const filter = isPopular ? {} : category ? { category } : {};
 
-    const skip = (page - 1) * perPage;
-
+    const skip = (currentPage - 1) * itemsPerPage;
     const sortDirection = sortOrder === "asc" ? 1 : -1;
 
     const [articles, totalItems] = await Promise.all([
       ArticleModel.find(filter)
+
         .sort(
           isPopular
             ? { rate: -1, _id: -1 }
             : { [sortBy]: sortDirection, _id: sortDirection }
     )
+
         .skip(skip)
-        .limit(perPage)
+        .limit(itemsPerPage)
         .lean(),
 
       ArticleModel.countDocuments(filter),
     ]);
+
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const articlesData = articles.map((article) => ({
       _id: article._id.toString(),
@@ -39,15 +45,13 @@ export const getArticles = async (req, res, next) => {
       description: article.description ?? article.desc,
       content: article.content ?? article.article,
       rate: article.rate,
-      ownerId: article.ownerId,
       date: article.date,
     }));
-    const totalPages = Math.ceil(totalItems / perPage);
 
     res.status(200).json({
       data: articlesData,
-      page,
-      perPage,
+      page: currentPage,
+      perPage: itemsPerPage,
       totalItems,
       totalPages,
     });

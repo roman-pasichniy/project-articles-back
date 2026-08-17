@@ -251,6 +251,30 @@ usersRouter.get("/", ctrl.getAuthors);
 /**
  * @swagger
  * /api/users/me:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get current user
+ *     description: Returns the profile information of the currently authenticated user.
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile successfully retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserResponse'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
+usersRouter.get("/me", authMiddleware, ctrl.currentUser);
+
+/**
+ * @swagger
+ * /api/users/me:
  *   patch:
  *     tags:
  *       - Users

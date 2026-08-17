@@ -1,1 +1,1 @@
-export const CATEGORIES = ["popular", "general"];
+export const CATEGORIES = ["popular", "all"];

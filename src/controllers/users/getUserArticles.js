@@ -23,27 +23,15 @@ export const getUserArticles = async (req, res) => {
   const articles = await ArticleModel.find({
     ownerId: userId,
   })
-    .select("img photo title desc description author ownerId date")
+    .select("img title desc article rate ownerId date")
     .skip(skip)
     .limit(perPage)
     .lean();
 
-  const formattedArticles = articles.map((article) => ({
-    _id: article._id,
-    title: article.title,
-    description: article.description ?? article.desc ?? "",
-    photo: article.photo ?? article.img ?? "",
-    author: article.author ?? user.name,
-    ownerId: article.ownerId,
-    date: article.date,
-  }));
-
-  console.log("ARTICLES:", formattedArticles);
-
   const totalPages = Math.ceil(totalItems / perPage);
 
   res.status(200).json({
-    articles: formattedArticles,
+    articles,
     pagination: {
       page,
       perPage,
