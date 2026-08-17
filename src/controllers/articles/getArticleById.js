@@ -22,11 +22,11 @@ export const getArticleById = async (req, res, next) => {
       .lean();
 
     const response = {
-      _id: article._id,
-      img: article.img,
+      _id: article._id.toString(),
+      photo: article.photo ?? article.img,      
       title: article.title,
-      desc: article.desc,
-      article: article.article,
+      description: article.description ?? article.desc,
+      content: article.content ?? article.article,
       rate: article.rate,
       date: article.date,
       owner: owner
