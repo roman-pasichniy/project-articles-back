@@ -1,5 +1,7 @@
 import { ArticleModel } from "../../models/article.js";
 
+const POPULAR_LIMIT = 12; 
+
 export const getArticles = async (req, res, next) => {
   try {
     const {
